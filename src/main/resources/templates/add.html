@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/custom-edit.css}" />
+<link rel="stylesheet" th:href="@{/css/custom-add.css}" />
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
+<head>
+
+<title>Modifier une tâche</title>
+</head>
+<body>
+
+	<div class="container pt-5" style ="width: 40%;">
+		<h5 class="titletext-edit">Ajouter une tâche</h5>
+	</div>
+	<div class="container pt-5" style ="width: 40%;">
+		<form action="/tasks/add" th:object="${Task}"
+			method="POST">
+			<div class="form-group row">
+				<label for="nom">Nom</label> <input type="text" class="form-control"
+					id="nom" th:field="*{name}">
+			</div>
+			<div class="form-group row">
+				<label for="Description">Description</label>
+				<textarea class="form-control" id="Description"
+					th:field="*{description}"></textarea>
+			</div>
+			<div class="form-group row">
+				<div class="range-wrap">
+					<div class="range-value" id="rangeV"></div>
+					<label for="completion">Progression</label>
+					<input id="completion" type="range" min="0" max="100" step="1" th:field="*{completion}">
+				</div>
+			</div>
+			<button type="submit" class="btn btn-info float-right">Ajouter</button>
+		</form>
+	</div>
+<script th:src="@{/js/range.js}"></script>
+</body>

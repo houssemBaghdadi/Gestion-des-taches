@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/custom.css}" />
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+<script src="https://kit.fontawesome.com/e0fe3636e4.js"></script>
+<head>
+<meta charset="utf-8" />
+<title>Mes tâches</title>
+</head>
+<body>
+	<div th:if="${message}"
+		th:class="${'alert ' + alertClass + ' alert-dismissible fade show'}"
+		role="alert">
+		Modification effectuée avec succés
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+
+	<div th:if="${message1}"
+		th:class="${'alert ' + alertClass1 + ' alert-dismissible fade show'}"
+		role="alert">
+		Tâche ajoutée avec succés
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+
+	<div th:if="${message2}"
+		th:class="${'alert ' + alertClass2 + ' alert-dismissible fade show'}"
+		role="alert">
+		Tâche supprimée correctement
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>	
+
+	<div class="title1">
+		<h1 class="titletext">Mes tâches</h1>
+	</div>
+	<div class="list1">
+		<button type="button" onclick="window.location.href = '/tasks/add'"
+			class="btn btn-info btn-sm btn-block">
+			<i class="fa fa-plus fa-sm"> </i> nouvelle tâche
+		</button>
+		<div class="list-group" th:each="Task : ${TaskPage.content}">
+			<a href="#"
+				class="list-group-item list-group-item-action list-group-item-info">
+				<div class="btn-group btn-group-sm" style="float: right;"
+					role="group" aria-label="Basic example">
+					<button type="button" class="btn btn-outline-light"
+						th:onclick="|location.href = '/tasks/update/${Task.taskid}';|"
+						data-placement="top" title="modifier">
+						<i class="fa fa-pen fa-sm"></i>
+					</button>
+					<button type="button" id="modalButton" th:name="${Task.taskid}" class="btn btn-outline-light"
+						data-placement="top" title="supprimer"
+						data-toggle="modal" data-target="#deleteModal">
+						<i class="fa fa-close fa-sm"></i>
+					</button>
+				</div>
+				<h5 th:text="${Task.name}"></h5>
+				<p th:text="${Task.description}"></p>
+				<div class="progress">
+					<div class="progress-bar progress-bar-striped bg-info"
+						th:style="|width: ${Task.completion}%|"
+						th:text="${Task.completion + '%'}"></div>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">Vous allez supprimer de cette tâche.</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">annuler</button>
+					<button type="button" class="btn btn-danger" id="deleteButton">supprimer</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="list1">
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+				<li
+					th:class="${pageNumber==TaskPage.number + 1} ? 'page-item active'"
+					th:each="pageNumber : ${pageNumbers}"><a th:class="page-link"
+					th:href="@{/tasks/viewAll(size=${TaskPage.size}, page=${pageNumber})}"
+					th:text=${pageNumber}> </a></li>
+			</ul>
+		</nav>
+	</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script th:src="@{/js/redirect.js}"></script>
+</body>
+
+</html>
